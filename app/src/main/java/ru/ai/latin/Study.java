@@ -1,5 +1,12 @@
 package ru.ai.latin;
-
+/**
+ *  * @author Sergey Grushin <sgrushin70@gmail.com>
+ *  * @version     1.0
+ *  * @since
+ * <p>
+ * MVC Controller class
+ * </p>
+ */
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,15 +29,18 @@ public class Study extends AppCompatActivity {
     ImageView okNo;
     TextView ask,w1,w2,w3,w4;
     int id_book,id_chapter;
-    VocabularyController.Word word;
-    private VocabularyController controller;
+    //VocabularyController.Word word;
+    //private VocabularyController controller;
+    private VocabularyModel model;
+    VocabularyModel.Word word;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
         okNo = findViewById(R.id.okNo);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        controller = new VocabularyController(this);
+        //controller = new VocabularyController(this);
+        model =  new VocabularyModel(this);
 
         ask = findViewById(R.id.textViewAsk);
         w1 = findViewById(R.id.textView1);
@@ -39,8 +49,8 @@ public class Study extends AppCompatActivity {
         w4 = findViewById(R.id.textView4);
 
         Intent intent = getIntent();
-        id_book = intent.getIntExtra("id_book",0);
-        id_chapter = intent.getIntExtra("id_chapter",0);
+        id_book = intent.getIntExtra("id_book",0)+1;
+        id_chapter = intent.getIntExtra("id_chapter",0)+1;
 
         try {callWord();} catch (Exception e ) {
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
@@ -51,7 +61,7 @@ public class Study extends AppCompatActivity {
         super.onStop();
     }
     private void callWord() {
-        word = controller.getWord(id_book,id_chapter);
+        word = model.getWord(id_book,id_chapter);
         ask.setText(word.latin);
         Random random = new Random();
         int i = random.nextInt(4);

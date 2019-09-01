@@ -1,5 +1,13 @@
 package ru.ai.latin;
-
+/**
+ *  * @author Sergey Grushin <sgrushin70@gmail.com>
+ *  * @version     1.0
+ *  * @since
+ * <p>
+ * MVC Controller class. Activity with ChapterList
+ *
+ * </p>
+ */
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +22,8 @@ public class ChapterActivity extends AppCompatActivity {
     ListView chaptersList;
     List<String> chapters;
     int id_book;
-    VocabularyController controller;
+
+    VocabularyModel model;
 
 
     @Override
@@ -24,8 +33,9 @@ public class ChapterActivity extends AppCompatActivity {
         chaptersList = findViewById(R.id.ListChapters);
         Intent intent = getIntent();
         id_book= intent.getIntExtra("id_book", 0);
-        controller = new VocabularyController(this);
-        chapters = controller.getChapters(id_book);
+        //controller = new VocabularyController(this);
+        model = new VocabularyModel(this);
+        chapters = model.getChapters(id_book);
         chaptersList.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,chapters.toArray(new String[] {}) ));
         chaptersList.invalidateViews();
@@ -42,7 +52,7 @@ public class ChapterActivity extends AppCompatActivity {
     }
     @Override
     public void onStop (){
-        controller.close();
+        model.stop();
         super.onStop();
     }
 }
